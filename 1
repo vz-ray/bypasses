@@ -1,0 +1,8 @@
+local TextChatService = game:GetService("TextChatService")
+local Players = game:GetService("Players")
+
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("")
+else
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("", "All")
+end
