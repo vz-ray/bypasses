@@ -1,1 +1,28 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TextChatService = game:GetService("TextChatService")
+local IsLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
 
+local function checkForTag(message)
+    local success, isTagged = pcall(function()
+        return game:GetService("Chat"):FilterStringForBroadcast(message, game.Players.LocalPlayer)
+    end)
+    return success and isTagged ~= message
+end
+
+local function sendMessage(message)
+    if checkForTag(message) then
+        OrionLib:MakeNotification({
+            Name = "Tag Detection",
+            Content = "This bypass might be patched! Try clicking 'Stop Tags' and try again!",
+            Duration = 5
+        })
+    else
+        if IsLegacy then
+            game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
+        else
+            TextChatService.TextChannels.RBXGeneral:SendAsync(message)
+        end
+    end
+end
+
+sendMessage("￰￰b￰󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕󠀕о￰￰о￰￰￰￰b￰s")
